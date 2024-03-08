@@ -372,10 +372,12 @@ class VannaFlaskApp:
 
         @self.flask_app.route("/api/v0/get_question_history", methods=["GET"])
         def get_question_history():
+            questions = cache.get_all(field_list=["question"])
+            questions.reverse()  # Reverse the order of items in the list
             return jsonify(
                 {
                     "type": "question_history",
-                    "questions": cache.get_all(field_list=["question"]),
+                    "questions": questions,
                 }
             )
 
